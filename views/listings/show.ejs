@@ -1,0 +1,25 @@
+<% layout("layouts/boilerplate") -%>
+<div class="row">
+  <div class="col-6 offset-3">
+    <br>
+    <div class="card">
+      <img src="<%= (listing.Img && typeof listing.Img === 'object') ? (listing.Img.url || '/images/placeholder.jpg') : (listing.Img || '/images/placeholder.jpg') %>" class="card-img-top" alt="listing_img" id="show_image">
+      <div class="card-body">
+        <b><p class="card-text"><%= listing.Title %></p></b>
+        <p class="card-text"><%= listing.Description %></p>
+        <p>Location: <%= listing.location %>, <%= listing.country %></p>
+        <p class="card-text">Price: <%= Number(listing.price).toLocaleString('en-IN') %></p>
+        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit the details</a>
+        <br>
+        <div class>
+        <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
+          <br>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+<br>

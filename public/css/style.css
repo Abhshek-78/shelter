@@ -1,0 +1,118 @@
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+.navbar{
+    background-color: #f8f9fa;
+    height: 4.5rem;
+
+}
+.logo{
+    font-family: 'Brush Script MT', cursive;
+    color: #ff6f61;
+    margin-left: 2rem;
+}
+.nav-link{
+    color:#100f0f !important;
+}
+.f-info-link a{
+    text-decoration: none;
+    color:#222222;
+}
+.f-info-link a:hover{
+    text-decoration: underline;
+}
+.f-info{
+    text-align: center;
+    display: flex ;
+    flex-wrap: wrap;
+    background-color: #ebebeb;
+    justify-content: center;
+    height: 8rem;
+    align-items: space_evenly;
+    
+}
+.f-info-sicial,.f-info-brand{
+    width: 100%;
+    font-size: 1.3rem;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.f-info-link{
+    width: 100%;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.f-info-sicial i{
+    margin-right: 1rem;
+}
+
+/* ensure consistent card image height and cover */
+.listing-img {
+  height: 12rem;
+  object-fit: cover;
+  width: 12%;
+  
+}
+
+/* optional: slightly tighter spacing in card body */
+.card-body {
+  
+  padding: 0.75rem;
+  border: none !important;
+}
+
+/* reduce card width and center it inside the column */
+.custom-card {
+  max-width: 280px;   /* card width */
+  width: 100%;
+}
+
+/* keep images scaled to the card width and a fixed height */
+.listing-img {
+  width: 100%;
+  max-width: 280px;  
+  height: 210px;     
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  border-top: 1rem;
+  border-radius: 1rem; 
+
+}
+
+/* optional: tighten card body spacing */
+.custom-card .card-body {
+  padding: 0.6rem;
+}
+.card-img-overlay{
+    opacity: 1;
+}
+
+.box{
+    background-color:white;
+    color: #222222;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 0.7rem;
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+   
+}
+#show_image{
+    height: 28rem;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 0.5rem;
+
+}
