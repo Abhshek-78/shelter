@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const review = require('./review');
 const Schema = mongoose.Schema;
 
 const ListenSchema = new Schema({
@@ -17,6 +18,12 @@ const ListenSchema = new Schema({
     price: Number,
     location: String,
     country: String,
+    review:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:review,
+        },
+    ]
 });
 
 const Listen = mongoose.model('Listen', ListenSchema);
