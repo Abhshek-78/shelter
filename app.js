@@ -11,7 +11,7 @@ const review = require('./models/review.js');
 const warpAsync=require("./utils/wrapAsync.js");
 const ExpressError=require("./utils/Expresserror.js");
 const Mongo_url = 'mongodb://127.0.0.1:27017/rooms';
-const {listingSchema}=require("./schema.js");
+const {listingSchema,reviewSchema}=require("./schema.js");
 async function main(){
     await mongoose.connect(Mongo_url);
 }
@@ -31,22 +31,31 @@ main().then(()=>{
 const validateListing=(req,res,next)=>{
     let {error}=listingSchema.validate(req.body);
     if(error){
-        throw new ExpressError(400,error);
+        let errMsg=error.details.map((el)=>el.message).join(",");
+
+        throw new ExpressError(400,errMsg);
     }else{
         next();
     }
 };
 
-
-
-
-
+const validateReview=(req,res,next)=>{
+    let {error}=reviewSchema.validate(req.body);
+    if(error){
+        let errMsg=error.details.map((el)=>el.message).join(",");
+        throw new ExpressError(400,errMsg);
+    }else{
+        next();
+    }
+};
 
 // set view engine and views dir before routes
 app.set('view engine','ejs');
 app.set("views", path.join(__dirname,'views'));
 app.use(express.urlencoded({extended:true}));
 app.use(methodoveride('_method'));
+app.use(express.json());
+
 app.engine('ejs',ejsmate);
 app.use(express.static(path.join(__dirname,'public')));
 // Home route
@@ -71,7 +80,7 @@ app.get("/listings/new",(req,res)=>{
 });
 
 //route for extract data from form and save to db
-app.post("/listings",warpAsync(async(req,res)=>{
+app.post("/listings",validateListing,warpAsync(async(req,res)=>{
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
@@ -81,7 +90,7 @@ app.post("/listings",warpAsync(async(req,res)=>{
 // show route specific data – use correct variable name and render view without extension
 app.get('/listings/:id',warpAsync( async (req, res) => {
     try {
-        const listing = await Listing.findById(req.params.id);
+        const listing = await Listing.findById(req.params.id).populate("review");
         console.log('SHOW listing.Img =>', listing && listing.Img);
         if (!listing) return res.status(404).send('Listing not found');
         res.render('listings/show', { listing });
@@ -100,19 +109,16 @@ app.get('/listings/:id/edit', warpAsync( async (req, res) => {
 //update listing route
 app.put('/listings/:id',warpAsync( async (req, res) => {
     const { id } = req.params;
-    await Listing.findByIdAndUpdate(id,{...req.body.listing});
+    await Listing.findByIdAndUpdate(id,{...req.body.listings});
     res.redirect(`/listings/${id}`);
 }));
 //delete listing route
-app.delete('/listings/:id',warpAsync(  async (req, res) => {
-    if(!req.body.listing){
-        throw new ExpressError(404,"send a valid data ");
-    }
+app.delete('/listings/:id',async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
     console.log("Deleted Successfully");
     res.redirect('/listings');
-}));
+});
 
 //posting review route
 app.post("/listings/:id/review/",warpAsync( async (req,res)=>{
@@ -129,6 +135,8 @@ app.all(/.*/, (req, res) => {
   res.status(404).send(' page Not Found');
   
 });
+
+
 
 // start server after routes
 app.listen(port, () => {
