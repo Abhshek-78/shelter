@@ -1,9 +1,25 @@
 <% layout("layouts/boilerplate") -%>
+<%
+  // compute a safe image src: prefer object.url/secure_url/path, accept strings that look like URLs,
+  // treat values like "[object Object]" as invalid so placeholder is used.
+  let imgSrc = '/images/placeholder.jpg';
+  if (listing && listing.Img) {
+    if (typeof listing.Img === 'object') {
+      imgSrc = listing.Img.url || listing.Img.secure_url || listing.Img.path || listing.Img.original_url || imgSrc;
+    } else if (typeof listing.Img === 'string') {
+      const s = listing.Img.trim();
+      if (s && (s.startsWith('http') || s.startsWith('/') || s.startsWith('data:'))) {
+        imgSrc = s;
+      }
+    }
+  }
+%>
+
 <div class="row">
   <div class="col-6 offset-3">
     <br>
     <div class="card">
-      <img src="<%= (listing.Img && typeof listing.Img === 'object') ? (listing.Img.url || '/images/placeholder.jpg') : (listing.Img || '/images/placeholder.jpg') %>" class="card-img-top" alt="listing_img" id="show_image">
+      <img src="<%= imgSrc %>" class="card-img-top" alt="listing_img" id="show_image">
       <div class="card-body">
         <b><p class="card-text"><%= listing.Title %></p></b>
         <p class="card-text"><%= listing.Description %></p>
@@ -43,18 +59,14 @@
 
     <div class="container mt-4">
       <h4>All Reviews</h4>
-      <div class="row">
-        
+      <div class="row"> 
         <% for (let review of listing.review) { %>
           <div class="col-md-4 mb-3">
             <div class="card shadow-sm">
-              
               <i class="fa-solid fa-circle-user  my-element" ></i>
-            
               <div class="card-body">
             <!-- Comment -->
               <p class="card-text"><%= review.comment %></p>
-
             <!-- Rating as stars -->
             <div class="text-warning">
               <% for (let i = 1; i <= 5; i++) { %>
@@ -65,9 +77,15 @@
                 <% } %>
               <% } %>
             </div>
+              <form  method="post" action="/listings/<%=listing._id%>/review/<%=review._id%>?_method=DELETE">
+              
+              <button class="btn btn-sm btn-secondary  mt-3">delete</button>
+              </form>
+           
           </div>
+
         </div>
-        <button class="">delete</button>
+         
       </div>
     <% } %>
   </div>

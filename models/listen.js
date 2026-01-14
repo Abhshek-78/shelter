@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const review = require('./review');
+const Review = require('./review');
 const Schema = mongoose.Schema;
+
 
 const ListenSchema = new Schema({
     Title: {
@@ -21,10 +22,19 @@ const ListenSchema = new Schema({
     review:[
         {
             type:Schema.Types.ObjectId,
-            ref:review,
+            ref: 'review',
         },
     ]
 });
+
+// Remove associated reviews when a listing is deleted
+ListenSchema.post('findOneAndDelete', async function(listing) {
+    if (listing) {
+        await Review.deleteMany({ _id: { $in: listing.review } });
+    }
+});
+
+
 
 const Listen = mongoose.model('Listen', ListenSchema);
 module.exports = Listen;

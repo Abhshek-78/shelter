@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const methodoveride = require('method-override');
 const ejsmate=require('ejs-mate');
 const Listing = require("./models/listen.js");
-const review = require('./models/review.js');
+const Review = require('./models/review.js');
 const warpAsync=require("./utils/wrapAsync.js");
 const ExpressError=require("./utils/Expresserror.js");
 const Mongo_url = 'mongodb://127.0.0.1:27017/rooms';
@@ -109,7 +109,7 @@ app.get('/listings/:id/edit', warpAsync( async (req, res) => {
 //update listing route
 app.put('/listings/:id',warpAsync( async (req, res) => {
     const { id } = req.params;
-    await Listing.findByIdAndUpdate(id,{...req.body.listings});
+    await Listing.findByIdAndUpdate(id,{...req.body.listing});
     res.redirect(`/listings/${id}`);
 }));
 //delete listing route
@@ -123,19 +123,24 @@ app.delete('/listings/:id',async (req, res) => {
 //posting review route
 app.post("/listings/:id/review/",warpAsync( async (req,res)=>{
     let listing=await Listing.findById(req.params.id);
-    let newReview=new review(req.body.review);
+        let newReview=new Review(req.body.review);
     listing.review.push(newReview);
     await newReview.save();
     await listing.save();
    
     res.redirect(`/listings/${listing.id}`);
 }));
+// delete review write (ensure this is defined before the catch-all 404)
+app.delete('/listings/:id/review/:reviewId', warpAsync( async (req, res) => {
+        const { id, reviewId } = req.params;
+        await Listing.findByIdAndUpdate(id, { $pull: { review: reviewId } });
+        await Review.findByIdAndDelete(reviewId);
+        res.redirect(`/listings/${id}`);
+}));
 
 app.all(/.*/, (req, res) => {
-  res.status(404).send(' page Not Found');
-  
+    res.status(404).send(' page Not Found');
 });
-
 
 
 // start server after routes

@@ -10,11 +10,11 @@
              </div>
              <div class="mb-3">     
                 <label for="Description" class="form-label">Description</label>
-                <textarea name="listing[Description]"  value="<%=listing.Description%>" class="form-control" required></textarea>
+                <textarea name="listing[Description]" class="form-control" required><%= listing.Description %></textarea>
             </div>
             <div class="mb-3">     
                 <label for="Img" class="form-label">Image</label>
-                <input type="text" name="listing[Img]" value="<%=listing.Img%>" class="form-control" required/>
+                <input type="text" name="listing[Img]" value="<%= (listing.Img && typeof listing.Img === 'object') ? (listing.Img.url || '') : (listing.Img || '') %>" class="form-control" required/>
                 <div  class="invalid-feedback">Enter a valid img url</div>
             </div>
             <div class="mb-3">     
