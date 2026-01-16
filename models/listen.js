@@ -27,7 +27,7 @@ const ListenSchema = new Schema({
     ]
 });
 
-// Remove associated reviews when a listing is deleted
+// Remove associated reviews when a listing eleted
 ListenSchema.post('findOneAndDelete', async function(listing) {
     if (listing) {
         await Review.deleteMany({ _id: { $in: listing.review } });
