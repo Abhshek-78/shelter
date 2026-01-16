@@ -33,7 +33,7 @@ Brief: Shelter is a small Express + EJS + Mongoose app for managing property/roo
 
 4. Seed the database (if you have `init/index.js` or `init/index1.js`):- The seed script should connect to MongoDB, normalize `Img` to a string and insert sample listings. Check console logs for success.
 
-5. Start the app from project root:- Visit http://localhost:3000
+5. Start the app from project root:- Visit http://127.0.0.1:3000/listings
 
 ---
 
