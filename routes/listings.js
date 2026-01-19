@@ -37,8 +37,9 @@ router.get("/new",(req,res)=>{
 router.post("/",validateListing,warpAsync(async(req,res)=>{
     const newListing = new Listing(req.body.listing);
     await newListing.save();
+    req.flash("success","Successfully made a new shelter");
     res.redirect("/listings");
-
+    
 }));
 
 // show route specific data – use correct variable name and render view without extension
@@ -64,6 +65,7 @@ router.get('/:id/edit', warpAsync( async (req, res) => {
 router.put('/:id',warpAsync( async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndUpdate(id,{...req.body.listing});
+    req.flash("success"," succesfully updated shelter");
     res.redirect(`/listings/${id}`);
 }));
 //delete listing route
@@ -71,6 +73,7 @@ router.delete('/:id',async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
     console.log("Deleted Successfully");
+    req.flash("success","Successfully made delete shelter");
     res.redirect('/listings');
 });
 module.exports = router;

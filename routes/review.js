@@ -21,7 +21,7 @@ router.post("/",warpAsync( async (req,res)=>{
     listing.review.push(newReview);
     await newReview.save();
     await listing.save();
-   
+   req.flash("success","Successfully add a new review");
     res.redirect(`/listings/${listing.id}`);
 }));
 // delete review write (ensure this is defined before the catch-all 404)
@@ -29,6 +29,7 @@ router.delete('/:reviewId', warpAsync( async (req, res) => {
         const { id, reviewId } = req.params;
         await Listing.findByIdAndUpdate(id, { $pull: { review: reviewId } });
         await Review.findByIdAndDelete(reviewId);
+        req.flash("success","Successfully delete a review");
         res.redirect(`/listings/${id}`);
 }));
 module.exports = router;
