@@ -24,7 +24,11 @@ const ListenSchema = new Schema({
             type:Schema.Types.ObjectId,
             ref: 'review',
         },
-    ]
+    ],
+    owner :{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    }
 });
 
 // Remove associated reviews when a listing eleted

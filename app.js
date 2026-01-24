@@ -9,6 +9,9 @@ const ejsmate=require('ejs-mate');
 const Listing = require("./models/listen.js");
 const session=require('express-session');
 const flash=require('connect-flash');
+const passport=require('passport');
+const Localstrategy=require('passport-local');
+const User=require('./models/user.js');
 
 
 const ExpressError=require("./utils/Expresserror.js");
@@ -16,6 +19,7 @@ const Mongo_url = 'mongodb://127.0.0.1:27017/rooms';
 
 const listingsRoutes=require("./routes/listings.js");
 const reviewRoutes=require("./routes/review.js");
+const userRoutes=require("./routes/users.js");
 async function main(){
     await mongoose.connect(Mongo_url);
 }
@@ -39,9 +43,17 @@ const sessionOption={
 
 app.use(session(sessionOption));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new Localstrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
+    res.locals.error=req.flash("error");
+    res.locals.currentUser=req.user;
     next();
 });
 
@@ -62,15 +74,24 @@ app.use(express.json());
 
 app.engine('ejs',ejsmate);
 app.use(express.static(path.join(__dirname,'public')));
+
+/*app.use("/newusers",async(req,res)=>{
+    let newUser=new User({
+        email:"cssp5431@gmail.com",
+        username:"cssp5431"
+
+    });
+    let RegisterUser=await User.register(newUser,"mystrongpassword");
+    res.send(RegisterUser);
+});*/
 // Home route
 app.get('/', (req, res) => {
     res.send('Hello I am ready to work');
 });
 
 app.use('/listings',listingsRoutes);
-
-
 app.use('/listings/:id/review',reviewRoutes);
+app.use('/',userRoutes);
 
 app.all(/.*/, (req, res) => {
     res.status(404).send(' page Not Found');

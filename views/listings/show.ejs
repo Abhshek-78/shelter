@@ -41,6 +41,7 @@
 
     <div class="mb-1">
       <h4>Reviews</h4>
+      <% if(currentUser) { %>
       <form action="/listings/<%=listing.id%>/review" method="post" novalidate class="needs-validation">
         <div class="mb-1.5 mt-1.5" >
           <label for="rating" class="form-label ">rating</label>
@@ -54,6 +55,9 @@
         <br>
         <button class="btn btn-dark" class="mt-2">Submit</button>
       </form>
+      <% } else { %>
+      <p><a href="/login">Login</a> to give a review</p>
+      <% } %>
     </div>
     
 
@@ -78,8 +82,9 @@
               <% } %>
             </div>
               <form  method="post" action="/listings/<%=listing._id%>/review/<%=review._id%>?_method=DELETE">
-              
+              <% if(currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
               <button class="btn btn-sm btn-secondary  mt-3">delete</button>
+              <% } %>
               </form>
            
           </div>

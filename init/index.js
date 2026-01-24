@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 // require local file in same folder
 const initdata = require('./data.js');
 const Listing = require('../models/listen.js');
+const { init } = require('../models/user.js');
 const Mongo_url = 'mongodb://127.0.0.1:27017/rooms';
 
 main()
@@ -18,6 +19,7 @@ async function main() {
 
 const initdb = async () => {
     await Listing.deleteMany({});
+    initdata.data=initdata.data.map((obj)=>({...obj,owner:"648f3c4f2f4c3c0015c6e1b9a"}));
     // use the exported property name 'data' from data.js
     const raw = Array.isArray(initdata.data) ? initdata.data : [];
     const listings = raw.map(item => ({

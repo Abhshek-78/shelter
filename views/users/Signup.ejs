@@ -1,0 +1,23 @@
+<% layout("/layouts/boilerplate")%>
+<div class="row mt-3">
+    
+    <h1 align="center">Sign up</h1>
+    <div class="col-6 offset-3" >
+        <form action="/signup" method="post" class="needs-validation" novalidate> 
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping">&#128100;</span>
+                <input type="text" class="form-control" name="username" placeholder="username" id="username" aria-describedby="addon-wrapping" required/>
+            </div><br>
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping">&#128231;</span>
+                <input type="email" class="form-control" name="email" placeholder="email" id="email" aria-describedby="addon-wrapping" required>
+            </div><br>
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping">&#128477;</span>
+                <input type="password" class="form-control" name="password" placeholder="password" id="password" aria-describedby="addon-wrapping" required>
+            </div><br>
+            <button class="btn btn-success ">Signup</button>
+
+        </form>
+    </div>
+</div>

@@ -4,6 +4,17 @@ const warpAsync=require("../utils/wrapAsync.js");
 const ExpressError=require("../utils/Expresserror.js");
 const {listingSchema,reviewSchema}=require("../schema.js");
 const Listing = require("../models/listen.js");
+const mongoose = require('mongoose');
+const { isLoggedIn } = require('../middleware.js');
+
+
+// Middleware to validate ObjectId
+const validateObjectId = (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(400).send('Invalid listing ID');
+    }
+    next();
+};
 
 const validateListing=(req,res,next)=>{
     let {error}=listingSchema.validate(req.body);
@@ -15,8 +26,6 @@ const validateListing=(req,res,next)=>{
         next();
     }
 };
-
-
 // Route to get all listings
 router.get('/', warpAsync(async (req, res) => {
 
@@ -29,7 +38,8 @@ router.get('/', warpAsync(async (req, res) => {
     }
 }));
 //create new listing route
-router.get("/new",(req,res)=>{
+router.get("/new",isLoggedIn,(req,res)=>{
+    
     res.render("listings/new.ejs");
 });
 
@@ -43,7 +53,7 @@ router.post("/",validateListing,warpAsync(async(req,res)=>{
 }));
 
 // show route specific data – use correct variable name and render view without extension
-router.get('/:id',warpAsync( async (req, res) => {
+router.get('/:id',validateObjectId,warpAsync( async (req, res) => {
     try {
         const listing = await Listing.findById(req.params.id).populate("review");
         console.log('SHOW listing.Img =>', listing && listing.Img);
@@ -56,20 +66,20 @@ router.get('/:id',warpAsync( async (req, res) => {
 }));
 
 //edit listing route
-router.get('/:id/edit', warpAsync( async (req, res) => {
+router.get('/:id/edit',isLoggedIn, validateObjectId, warpAsync( async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     res.render('listings/edit.ejs', { listing });
 }));
 //update listing route
-router.put('/:id',warpAsync( async (req, res) => {
+router.put('/:id',isLoggedIn,validateObjectId,warpAsync( async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndUpdate(id,{...req.body.listing});
     req.flash("success"," succesfully updated shelter");
     res.redirect(`/listings/${id}`);
 }));
 //delete listing route
-router.delete('/:id',async (req, res) => {
+router.delete('/:id',isLoggedIn,validateObjectId,async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
     console.log("Deleted Successfully");
