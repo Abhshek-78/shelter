@@ -25,7 +25,7 @@ const initdb = async () => {
     const listings = raw.map(item => ({
         Title: item.Title,
         Description: item.Description,
-        Img: item.Img && typeof item.Img === 'object' ? (item.Img.url || '') : (item.Img || ''),
+        Img: item.Img && typeof item.Img === 'object' ? item.Img : {url: item.Img},
         price: item.price,
         location: item.location,
         country: item.country

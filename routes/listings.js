@@ -6,6 +6,25 @@ const {listingSchema,reviewSchema}=require("../schema.js");
 const Listing = require("../models/listen.js");
 const mongoose = require('mongoose');
 const { isLoggedIn } = require('../middleware.js');
+const listingController = require("../controllers/listing.js");
+const multer  = require('multer');
+const path = require('path');
+const {storage} = require("../cloudconfig.js");
+
+const upload = multer({ 
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = /jpeg|jpg|png|gif|svg/;
+        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = allowedTypes.test(file.mimetype);
+        
+        if (mimetype && extname) {
+            return cb(null, true);
+        } else {
+            cb(new Error('Only image files are allowed (jpeg, jpg, png, gif)'));
+        }
+    }
+})
 
 
 // Middleware to validate ObjectId
@@ -26,64 +45,27 @@ const validateListing=(req,res,next)=>{
         next();
     }
 };
-// Route to get all listings
-router.get('/', warpAsync(async (req, res) => {
 
-    try {
-        const AllListing = await Listing.find({});
-        res.render('listings/index', { listings: AllListing });
-    } catch (err) {
-        console.error('Failed to load listings:', err);
-        res.status(500).send('Server error');
-    }
-}));
 //create new listing route
 router.get("/new",isLoggedIn,(req,res)=>{
     
     res.render("listings/new.ejs");
 });
+router
+    .route('/')
+    // Route to get all listings
+    .get(warpAsync(listingController.Index));
 
-//route for extract data from form and save to db
-router.post("/",validateListing,warpAsync(async(req,res)=>{
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    req.flash("success","Successfully made a new shelter");
-    res.redirect("/listings");
-    
-}));
+    //route for extract data from form and save to db
+router.post("/",isLoggedIn,validateListing,upload.single('listing[Img]'),warpAsync(listingController.CreateNewListing));
 
 // show route specific data – use correct variable name and render view without extension
-router.get('/:id',validateObjectId,warpAsync( async (req, res) => {
-    try {
-        const listing = await Listing.findById(req.params.id).populate("review");
-        console.log('SHOW listing.Img =>', listing && listing.Img);
-        if (!listing) return res.status(404).send('Listing not found');
-        res.render('listings/show', { listing });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
-    }
-}));
+router.get('/:id',validateObjectId,warpAsync(listingController.ShowListing));
 
 //edit listing route
-router.get('/:id/edit',isLoggedIn, validateObjectId, warpAsync( async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render('listings/edit.ejs', { listing });
-}));
+router.get('/:id/edit',isLoggedIn, validateObjectId, warpAsync(listingController.EditListing));
 //update listing route
-router.put('/:id',isLoggedIn,validateObjectId,warpAsync( async (req, res) => {
-    const { id } = req.params;
-    await Listing.findByIdAndUpdate(id,{...req.body.listing});
-    req.flash("success"," succesfully updated shelter");
-    res.redirect(`/listings/${id}`);
-}));
+router.put('/:id',isLoggedIn,validateObjectId,upload.single('listing[Img]'),warpAsync(  listingController.UpdateListing));
 //delete listing route
-router.delete('/:id',isLoggedIn,validateObjectId,async (req, res) => {
-    const { id } = req.params;
-    await Listing.findByIdAndDelete(id);
-    console.log("Deleted Successfully");
-    req.flash("success","Successfully made delete shelter");
-    res.redirect('/listings');
-});
+router.delete('/:id',isLoggedIn,validateObjectId,warpAsync( listingController.DeleteListing));
 module.exports = router;

@@ -3,7 +3,7 @@
     <div class="col-6 offset-3">
         <br>
         <h1>Edit Room Details</h1>
-        <form method="POST" action="/listings/<%=listing._id%>?_method=PUT" class="needs-validation" novalidate>
+        <form method="POST" action="/listings/<%=listing._id%>?_method=PUT" enctype="multipart/form-data" class="needs-validation" novalidate>
              <div class="mb-3">     
                 <label for="Title" class="form-label">Title</label>
                 <input type="text" name="listing[Title]" value="<%=listing.Title%>" class="form-control" required/>
@@ -12,10 +12,20 @@
                 <label for="Description" class="form-label">Description</label>
                 <textarea name="listing[Description]" class="form-control" required><%= listing.Description %></textarea>
             </div>
-            <div class="mb-3">     
-                <label for="Img" class="form-label">Image</label>
-                <input type="text" name="listing[Img]" value="<%= (listing.Img && typeof listing.Img === 'object') ? (listing.Img.url || '') : (listing.Img || '') %>" class="form-control" required/>
-                <div  class="invalid-feedback">Enter a valid img url</div>
+            <div class="mb-3">
+                <label for="img" class="form-label">Upload images</label>
+                <% if(listing.Img) { %>
+                    <div class="mb-2">
+                        <% if(typeof listing.Img === 'object' && listing.Img.url) { %>
+                            <img src="<%=listing.Img.url%>" alt="Current Image" style="max-width: 200px; max-height: 150px;" />
+                        <% } else if(typeof listing.Img === 'string') { %>
+                            <img src="<%=listing.Img%>" alt="Current Image" style="max-width: 200px; max-height: 150px;" />
+                        <% } %>
+                        <p class="text-muted">Current Image</p>
+                    </div>
+                <% } %>
+                <input type="file"  name="listing[Img]" placeholder="Upload image" class="form-control"/>
+                <small class="text-muted">Leave empty to keep current image</small>
             </div>
             <div class="mb-3">     
                 <label for="location" class="form-label">Location</label>

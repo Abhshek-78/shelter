@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Review = require('./review');
+const { string } = require('joi');
 const Schema = mongoose.Schema;
 
 
@@ -10,11 +11,8 @@ const ListenSchema = new Schema({
     },
     Description: String,
     Img: {
-        type: String,
-        default: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36',
-        set: (v) => (typeof v === 'string' && v.trim() === '') 
-            ? 'https://images.unsplash.com/photo-1524758631624-e2822e304c36' 
-            : v,
+        url: String,
+        filename: String
     },
     price: Number,
     location: String,

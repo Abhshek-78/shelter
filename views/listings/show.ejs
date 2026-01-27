@@ -1,4 +1,8 @@
 <% layout("layouts/boilerplate") -%>
+<script>
+  let map_token="<%= process.env.MAP_TOKEN %>";
+</script>
+
 <%
   // compute a safe image src: prefer object.url/secure_url/path, accept strings that look like URLs,
   // treat values like "[object Object]" as invalid so placeholder is used.
@@ -25,6 +29,7 @@
         <p class="card-text"><%= listing.Description %></p>
         <p>Location: <%= listing.location %>, <%= listing.country %></p>
         <p class="card-text">Price: <%= Number(listing.price).toLocaleString('en-IN') %></p>
+        <% if(currentUser && listing.owner && currentUser._id.equals(listing.owner._id)) { %>
         <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit the details</a>
         <br>
         <div class>
@@ -33,6 +38,7 @@
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
         </div>
+        <% } %>
         <br>
       </div>
     </div>
@@ -44,8 +50,16 @@
       <% if(currentUser) { %>
       <form action="/listings/<%=listing.id%>/review" method="post" novalidate class="needs-validation">
         <div class="mb-1.5 mt-1.5" >
-          <label for="rating" class="form-label ">rating</label>
-          <input type="range" min="1" max="5" id="rating" name="review[rating]"  class="form-range" >
+          <label for="rating" class="form-label ">Rating</label>
+          <div class="star-rating" id="starRating">
+            <i class="bi bi-star" data-value="1" style="cursor: pointer; font-size: 2rem; color: #ddd;"></i>
+            <i class="bi bi-star" data-value="2" style="cursor: pointer; font-size: 2rem; color: #ddd;"></i>
+            <i class="bi bi-star" data-value="3" style="cursor: pointer; font-size: 2rem; color: #ddd;"></i>
+            <i class="bi bi-star" data-value="4" style="cursor: pointer; font-size: 2rem; color: #ddd;"></i>
+            <i class="bi bi-star" data-value="5" style="cursor: pointer; font-size: 2rem; color: #ddd;"></i>
+          </div>
+          <input type="hidden" id="rating" name="review[rating]" value="0" required>
+          <div class="invalid-feedback" id="ratingFeedback">Please select a rating</div>
         </div>
         <div class="mb-1.5 mt-1.5">
           <label for="comment" class="form-label">Comment</label>
@@ -69,7 +83,9 @@
             <div class="card shadow-sm">
               <i class="fa-solid fa-circle-user  my-element" ></i>
               <div class="card-body">
-            <!-- Comment -->
+                <% if(review.author) { %>
+                <h5 class="card-subtitle mb-2 "><strong><%= review.author.username %></strong></h5>
+                <% } %>
               <p class="card-text"><%= review.comment %></p>
             <!-- Rating as stars -->
             <div class="text-warning">
@@ -87,7 +103,7 @@
               <% } %>
               </form>
            
-          </div>
+            </div>
 
         </div>
          
@@ -96,8 +112,14 @@
   </div>
 </div>
 
+</div>
+<hr>
 
-  </div>
+<div class="col-6 offset-3 mb-6" >
+  <h4>where you'll be </h4>
+  <div id="map"></div>
+</div>
  
 </div>
 <br>
+<script src="/js/map.js"></script>

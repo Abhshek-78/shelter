@@ -4,7 +4,7 @@
     <br>
     <h1>Add new rooms</h1>
     
-    <form method="POST" action="/listings"  class="needs-validation" novalidate >
+    <form method="POST" action="/listings"  enctype="multipart/form-data" class="needs-validation" novalidate >
         <div class="mb-3">
             <label for="Title" class="form-label">Title</label>
             <input type="text" name="listing[Title]" placeholder="Title" class="form-control" required/>
@@ -15,9 +15,10 @@
             <textarea name="listing[Description]" placeholder="Description" class="form-control" required></textarea>
             <div  class="invalid-feedback">please provide a description</div>
         </div>
+          
         <div class="mb-3">
-            <label for="img" class="form-label">Image Url</label>
-            <input type="text" name="listing[Img]" placeholder="Image URL" class="form-control"/>
+            <label for="img" class="form-label">Upload images</label>
+            <input type="file"  name="listing[Img]" placeholder="Upload image" class="form-control"/>
         </div>
         <div class="mb-3">
             <label for="location" class="form-label">Address</label>

@@ -8,7 +8,13 @@
         <div class="card h-50 custom-card mx-auto">
           <a href="/listings/<%= listing._id %>" >
             <% if (listing.Img) { %>
-              <img src="<%= listing.Img %>" class="card-img-top listing-img" alt="<%= listing.Title %>">
+              <% let imgSrc = '/images/placeholder.jpg'; %>
+              <% if (typeof listing.Img === 'object' && listing.Img.url) { %>
+                <% imgSrc = listing.Img.url; %>
+              <% } else if (typeof listing.Img === 'string') { %>
+                <% imgSrc = listing.Img; %>
+              <% } %>
+              <img src="<%= imgSrc %>" class="card-img-top listing-img" alt="<%= listing.Title %>">
             <% } else { %>
               <img src="/images/placeholder.jpg" class="card-img-top listing-img" alt="placeholder">
             <% } %>
