@@ -1,8 +1,7 @@
-🏡 Shelter — Listings App
+🏡 **Shelter — Rooms bookin app**
 
 Shelter is a full-stack property/room listing web application built with Node.js, Express, MongoDB, and EJS. Users can create and manage listings, leave reviews, and explore properties on an interactive map. Admins have extended management controls.
 
-🚀 Features
 👤 Users
 
 Sign up / Login / Logout (Passport authentication)
