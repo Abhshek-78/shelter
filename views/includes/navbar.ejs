@@ -1,20 +1,54 @@
+<style>
+    .searchbar {
+    
+    width: 40%;
+  
+    border-radius: 20px;
+
+  }
+  .bttn{
+    background-color: #ff385c;
+    color: white;
+    border-radius: 20px;
+    
+  }
+  .innerserch{
+    border: none;
+    box-shadow: none;
+    outline: none;
+    
+    width: 100%;
+    border-radius: 20px;
+  }
+  
+
+</style>
+<link rel="stylesheet" href="E:\shelter\public\css\style.css">
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/" ><h2 class="logo">pillowPost</h2></a>
+    <a class="navbar-brand" href="/listings" ><h2 class="logo">pillowPost</h2></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link " href="/">Home</a>
-        <a class="nav-link" href="/listings">All listing</a>
-        <a class="nav-link" href="/listings/new">Add new list</a>
+        
+        <a class="nav-link" href="/listings">Explore</a>
+       
        
       </div>
+      <div class="searchbar ms-0 ms-md-5 me-0 me-md-5">
+        <form action="/listings" method="GET" class="d-flex" role="search" >
+          <input class="form-control me-2 innerserch" type="search" name="q" placeholder="Search rooms..." aria-label="Search">
+          <button class="btn btn-danger  bttn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+        
+      </div>
       <div class="navbar-nav ms-auto">
+         <a class="nav-link" href="/listings/new">pillowPost Your Home</a>
         <%if(!currentUser) {%>
-        <a class="nav-link " href="/login">LogIn</a>
-        <a class="nav-link" href="/signup">SignUp</a>
+        <a class="nav-link " href="/login"><b>LogIn</b></a>
+        <a class="nav-link" href="/signup"><b>SignUp</b></a>
         <%} %>
         <%if(currentUser) {%>
         <a class="nav-link" href="/logout">Logout</a>

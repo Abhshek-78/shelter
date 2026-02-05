@@ -15,3 +15,9 @@ module.exports.reviewSchema=Joi.object({
         comment:Joi.string().required(),
     }).required(),
 });
+listing:Joi.object({
+  // ...
+  price:Joi.number().required().min(0),
+  discount: Joi.number().min(0).optional(),
+  Img:Joi.string().allow("",null),
+});

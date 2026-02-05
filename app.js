@@ -87,9 +87,10 @@ app.use(express.static(path.join(__dirname,'public')));
     res.send(RegisterUser);
 });*/
 // Home route
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
     res.send('Hello I am ready to work');
-});
+});*/
+
 
 app.use('/listings',listingsRoutes);
 app.use('/listings/:id/review',reviewRoutes);

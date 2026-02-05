@@ -26,7 +26,26 @@ const ListenSchema = new Schema({
     owner :{
         type: Schema.Types.ObjectId,
         ref: 'User',
-    }
+    },
+    geometry:{
+        type:{
+            type: String,
+            enum:['Point'],
+            required: true
+        },
+        coordinate:{
+            type:[Number],
+            required: true
+        }
+
+    },
+    catogery:{
+        type: String,
+        enum: ['mountain', 'rooms', 'tranding', 'iconic city','pool',"castel"],
+    },
+    // inside ListenSchema
+    price: Number,
+    discount: { type: Number, default: 0 }, // discount in percentage or absolute (pick one)
 });
 
 // Remove associated reviews when a listing eleted

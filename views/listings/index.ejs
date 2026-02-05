@@ -1,6 +1,96 @@
 <% layout("/layouts/boilerplate") -%>
+<style>
+
+</style>
+
 <body>
-  <h1 class="my-4">Popular home</h1>
+ 
+    <div id="filterbar">
+     
+      <a href="/listings" class="filter <%= selectedCategory === '' ? 'active' : '' %>">
+        <i class="fa-solid fa-house"></i>
+        <span>All</span>
+      </a>
+
+      <a href="/listings?category=tranding" class="filter <%= selectedCategory === 'tranding' ? 'active' : '' %>">
+        <i class="fa-solid fa-fire"></i>
+        <span>Trending</span>
+      </a>
+
+      <a href="/listings?category=rooms" class="filter <%= selectedCategory === 'rooms' ? 'active' : '' %>">
+        <i class="fa-solid fa-bed"></i>
+        <span>Rooms</span>
+      </a>
+
+      <a href="/listings?category=iconic city" class="filter <%= selectedCategory === 'iconic city' ? 'active' : '' %>">
+        <i class="fa-solid fa-city"></i>
+        <span>Iconic city</span>
+      </a>
+
+      <a href="/listings?category=mountain" class="filter <%= selectedCategory === 'mountain' ? 'active' : '' %>">
+        <i class="fa-solid fa-mountain-city"></i>
+        <span>Mountain city</span>
+      </a>
+
+      <a href="/listings?category=pool" class="filter <%= selectedCategory === 'pool' ? 'active' : '' %>">
+        <i class="fa-solid fa-person-swimming"></i>
+        <span>Pool</span>
+      </a>
+
+      <a href="/listings?category=castel" class="filter <%= selectedCategory === 'castel' ? 'active' : '' %>">
+        <i class="fa-solid fa-landmark-dome"></i>
+        <span>Castles</span>
+      </a>
+
+      <a href="/listings?category=tranding" class="filter <%= selectedCategory === 'tranding' ? 'active' : '' %>">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <span>Beach</span>
+      </a>
+
+    <form method="GET" action="/listings" class="filter-form container mt-1">
+      <div class="card shadow-sm p-3">
+         <div class="row g-3"> 
+          <div class="col-md-3"> 
+        <input type="number" name="minPrice" class="form-control"
+          placeholder="₹ Min price" value="<%= filters.minPrice || '' %>">
+      </div>
+
+      <div class="col-md-3">
+        <input type="number" name="maxPrice" class="form-control"
+          placeholder="₹ Max price" value="<%= filters.maxPrice || '' %>">
+      </div>
+
+      <div class="col-md-2">
+        <input type="number" name="minRating" class="form-control"
+          placeholder="1 - 5" min="1" max="5"
+          value="<%= filters.minRating || '' %>">
+      </div>
+
+      <div class="col-md-2">
+        <input type="number" name="minDiscount" class="form-control"
+          placeholder="% Discount"
+          value="<%= filters.minDiscount || '' %>">
+      </div>
+
+      <div class="col-md-2 d-grid">
+        <button type="submit" class="btn btn-dark">
+          filter
+        </button>
+      
+      </div>
+      
+
+    </div>
+  </div>
+</form>
+
+
+
+    </div>
+  
+  
+
+  
 
   <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-6">
     <% for (let listing of listings) { %>
@@ -38,3 +128,4 @@
     <% } %>
   </div>
 </body>
+

@@ -15,6 +15,21 @@
             <textarea name="listing[Description]" placeholder="Description" class="form-control" required></textarea>
             <div  class="invalid-feedback">please provide a description</div>
         </div>
+        <div class="catoger_Dropdown">
+            <label for="catogery" class="form-label">Select Catogery</label>
+            <select name="listing[catogery]" class="form-select" aria-label="Default select example" required>
+                <option selected disabled value="">Choose...</option>
+                <option value="mountain">Mountain</option>
+                <option value="rooms">Rooms</option>
+                <option value="tranding">Tranding</option>
+                <option value="iconic city">Iconic city</option>
+                <option value="pool">Pool</option>
+                <option value="castel">Castel</option>
+            </select>
+            <div  class="invalid-feedback">please provide a catogery </div>
+        </div>
+        
+
           
         <div class="mb-3">
             <label for="img" class="form-label">Upload images</label>
@@ -36,6 +51,10 @@
                 <label for="country" class="form-label">Price</label>
                 <input type="number" name="listing[price]" placeholder="Price" class="form-control" required/>
                 <div  class="invalid-feedback">Enter a jenuen price</div>
+            </div>
+            <div class="mb-3 col-6">
+                <label for="country" class="form-label">Discount %</label>
+                <input type="number" name="listing[discount]" placeholder="Discount %" class="form-control" value="<%= (typeof listing !== 'undefined' && typeof listing.discount !== 'undefined') ? listing.discount : '' %>"/>
             </div>
         </div> 
         <button type="submit" class="btn btn-dark" class="mb-3">Add new item</button>

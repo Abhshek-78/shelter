@@ -43,7 +43,7 @@
       </div>
     </div>
 
-
+   
 
     <div class="mb-1">
       <h4>Reviews</h4>
@@ -115,10 +115,16 @@
 </div>
 <hr>
 
-<div class="col-6 offset-3 mb-6" >
-  <h4>where you'll be </h4>
-  <div id="map"></div>
-</div>
+ <!-- Map Section -->
+    <% if (listing.geometry && listing.geometry.coordinate) { %>  
+       <div id="map" style="width: 100vh; height: 50vh; margin: 0 auto;"></div>
+      
+    
+    <script>
+      const mapCoordinates = [<%= listing.geometry.coordinate[0] %>, <%= listing.geometry.coordinate[1] %>];
+    </script>
+    <% } %>
+
  
 </div>
 <br>
