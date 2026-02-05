@@ -29,7 +29,7 @@
         <p class="card-text"><%= listing.Description %></p>
         <p>Location: <%= listing.location %>, <%= listing.country %></p>
         <p class="card-text">Price: <%= Number(listing.price).toLocaleString('en-IN') %></p>
-        <% if(currentUser && listing.owner && currentUser._id.equals(listing.owner._id)) { %>
+        <% if(currentUser && ((listing.owner && currentUser._id.equals(listing.owner._id)) || currentUser.isAdmin)) { %>
         <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit the details</a>
         <br>
         <div class>

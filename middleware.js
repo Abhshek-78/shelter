@@ -14,3 +14,11 @@ module.exports.ReturnTo=(req,res,next)=>{
     next();
 };
 
+module.exports.isAdmin = (req, res, next) => {
+    if(!req.user || !req.user.isAdmin){
+        req.flash('error','You do not have permission to access that resource');
+        return res.redirect('/listings');
+    }
+    next();
+};
+

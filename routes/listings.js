@@ -5,7 +5,7 @@ const ExpressError=require("../utils/Expresserror.js");
 const {listingSchema,reviewSchema}=require("../schema.js");
 const Listing = require("../models/listen.js");
 const mongoose = require('mongoose');
-const { isLoggedIn } = require('../middleware.js');
+const { isLoggedIn, isAdmin } = require('../middleware.js');
 const listingController = require("../controllers/listing.js");
 const multer  = require('multer');
 const path = require('path');
@@ -51,6 +51,10 @@ router.get("/new",isLoggedIn,(req,res)=>{
     
     res.render("listings/new.ejs");
 });
+
+// Admin listings management page
+router.get('/admin', isLoggedIn, isAdmin, warpAsync(listingController.AdminIndex));
+
 router
     .route('/')
     // Route to get all listings

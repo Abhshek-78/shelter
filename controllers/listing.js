@@ -59,8 +59,20 @@ module.exports.Index = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
+
+module.exports.AdminIndex = async (req, res) => {
+    try {
+        const allListings = await Listing.find({}).populate('owner');
+        res.render('admin/listings_index', { listings: allListings });
+    } catch (err) {
+        console.error('Failed to load all listings for admin:', err);
+        req.flash('error', 'Failed to load listings');
+        res.redirect('/listings');
+    }
+};
+
 //create new listing function
-module.exports.CreateNewListing=async(req,res)=>{
+module.exports.CreateNewListing=async(req,res)=>{ 
     try {
         const newListing = new Listing(req.body.listing);
         newListing.owner = req.user._id;
@@ -127,8 +139,8 @@ module.exports.EditListing= async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     
-    // Check if user is the owner of the listing
-    if(!listing.owner.equals(req.user._id)){
+    // Allow owner or admin to edit
+    if(!(listing.owner && listing.owner.equals(req.user._id)) && !req.user.isAdmin){
         req.flash("error","You do not have permission to edit this listing");
         return res.redirect(`/listings/${id}`);
     }
@@ -139,8 +151,8 @@ module.exports.EditListing= async (req, res) => {
 module.exports.UpdateListing= async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
-    // Check if user is the owner of the listing
-    if(!listing.owner.equals(req.user._id)){
+    // Allow owner or admin to update
+    if(!(listing.owner && listing.owner.equals(req.user._id)) && !req.user.isAdmin){
         req.flash("error","You do not have permission to update this listing");
         return res.redirect(`/listings/${id}`);
     }
@@ -200,8 +212,8 @@ module.exports.DeleteListing=async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     
-    // Check if user is the owner of the listing
-    if(!listing.owner.equals(req.user._id)){
+    // Allow owner or admin to delete
+    if(!(listing.owner && listing.owner.equals(req.user._id)) && !req.user.isAdmin){
         req.flash("error","You do not have permission to delete this listing");
         return res.redirect(`/listings/${id}`);
     }

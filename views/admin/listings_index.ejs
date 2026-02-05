@@ -1,0 +1,35 @@
+<% layout('/layouts/boilerplate') -%>
+<div class="row">
+  <div class="col-10 offset-1">
+    <h2>Manage Listings</h2>
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Owner</th>
+          <th>Price</th>
+          <th>Discount</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let l of listings) { %>
+          <tr>
+            <td><a href="/listings/<%= l._id %>"><%= l.Title %></a></td>
+            <td><%= l.owner ? l.owner.username || l.owner._id : '—' %></td>
+            <td><%= Number(l.price || 0).toLocaleString('en-IN') %></td>
+            <td><%= l.discount || 0 %>%</td>
+            <td><%= l.catogery || '-' %></td>
+            <td>
+              <a href="/listings/<%= l._id %>/edit" class="btn btn-sm btn-primary">Edit</a>
+              <form action="/listings/<%= l._id %>?_method=DELETE" method="POST" style="display:inline-block; margin-left:6px;">
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this listing?');">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>

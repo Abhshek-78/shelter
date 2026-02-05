@@ -53,3 +53,27 @@ module.exports.Logout=(req,res,next)=>{
       
     });
 }
+
+// Admin functions
+module.exports.listUsers = async (req, res) => {
+    const users = await User.find({});
+    res.render('users/admin_index', { users });
+};
+
+module.exports.renderEditUser = async (req, res) => {
+    const { id } = req.params;
+    const userToEdit = await User.findById(id);
+    if (!userToEdit) {
+        req.flash('error','User not found');
+        return res.redirect('/admin/users');
+    }
+    res.render('users/edit_user', { user: userToEdit });
+};
+
+module.exports.updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { username, email, isAdmin } = req.body.user;
+    await User.findByIdAndUpdate(id, { username, email, isAdmin: isAdmin === 'on' || isAdmin === true });
+    req.flash('success','User updated');
+    res.redirect('/admin/users');
+};
