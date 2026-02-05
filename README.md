@@ -1,43 +1,129 @@
-# shelter
-it is hotel booking website 
-# Shelter — Listings app
+🏡 Shelter — Listings App
 
-Brief: Shelter is a small Express + EJS + Mongoose app for managing property/room listings. It supports create/read/update/delete operations, server-side rendering with EJS (using ejs-mate), and a seed script to populate sample listings.
+Shelter is a full-stack property/room listing web application built with Node.js, Express, MongoDB, and EJS. Users can create and manage listings, leave reviews, and explore properties on an interactive map. Admins have extended management controls.
 
----
+🚀 Features
+👤 Users
 
-## Tech stack
-- Node.js (>= 18 recommended)
-- Express
-- EJS + ejs-mate
-- MongoDB (local)
-- Mongoose
-- Bootstrap (front-end)
-- Font Awesome (icons)
+Sign up / Login / Logout (Passport authentication)
 
----
+Create, edit, and delete their own listings
 
-## Prerequisites
-- Git installed
-- Node.js and npm
-- MongoDB running locally (default at `mongodb://127.0.0.1:27017`)
-- (Optional) GitHub account if pushing repo
+Upload listing images (Cloudinary)
 
----
+Add reviews with ratings (1–5)
 
-## Quick setup (Windows / PowerShell)
-1. Open PowerShell and go to project folder:
-2. Install dependencies
-3. Start local MongoDB (if not running). Example (for installed service):
-- Run `mongod` or ensure MongoDB service is started via Services.
+🏠 Listings
 
-4. Seed the database (if you have `init/index.js` or `init/index1.js`):- The seed script should connect to MongoDB, normalize `Img` to a string and insert sample listings. Check console logs for success.
+Full CRUD functionality
 
-5. Start the app from project root:- Visit http://127.0.0.1:3000/listings
+Image upload & storage
 
----
+Location-based listings with Mapbox
 
-## Environment/configuration
-- MongoDB URL is configured in `app.js` / `init/index.js`:
-  ```js
-  const Mongo_url = 'mongodb://127.0.0.1:27017/rooms';
+Server-side filtering:
+
+Price range (after discount)
+
+Minimum rating
+
+Minimum discount
+
+Category
+
+⭐ Reviews
+
+Add and delete reviews
+
+Average rating used in filtering
+
+🗺 Maps
+
+Mapbox integration on listing detail pages
+
+Geocoded coordinates for seeded data
+
+🔐 Admin Panel
+
+Admins can:
+
+View and manage all listings
+
+Edit or delete any listing
+
+View and manage all users
+
+Shelter/
+│
+├── app.js                  # Main Express configuration
+├── index.js                # Optional entry entry point
+├── models/                 # Mongoose models
+│   ├── listen.js
+│   ├── review.js
+│   └── user.js
+│
+├── routes/                 # Route definitions
+│   ├── listings.js
+│   ├── users.js
+│   └── review.js
+│
+├── controllers/            # Business logic
+├── views/                  # EJS templates
+├── public/                 # Static assets (CSS, JS, map.js)
+│
+├── init/
+│   ├── data.js             # Seed data
+│   └── index.js            # Seeder script with geocoding
+│
+├── scripts/
+│   └── create-admin.js     # CLI admin creator
+└── .env                    # Environment variables
+💻 Installation & Setup
+1️⃣ Install dependencies
+npm install
+
+2️⃣ Start MongoDB
+
+Make sure MongoDB is running locally or update MONGO_URL.
+
+3️⃣ Seed sample data (optional)
+
+⚠ This deletes existing listings.
+
+node init/index.js
+
+4️⃣ Create an admin user
+node scripts/create-admin.js username email password
+
+5️⃣ Start the server
+node app.js
+
+
+Or with nodemon:
+
+nodemon app.js
+
+
+Visit 👉 http://localhost:3000/listings
+
+credentials
+🔮 Future Improvements
+
+Pagination for listings
+
+Full-text search
+
+Store computed fields (avgRating, effectivePrice)
+
+API version for mobile clients
+
+Unit & integration tests
+
+🤝 Contributing
+
+Pull requests are welcome!
+For major changes, please open an issue first to discuss what you would like to change.
+
+📜 License
+
+This project is licensed under the MIT License.
