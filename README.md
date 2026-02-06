@@ -1,131 +1,72 @@
-🏡 **Shelter — Rooms bookin app**
+# 🏡 Shelter — Property Listings Web App
 
-Shelter is a full-stack property/room listing web application built with Node.js, Express, MongoDB, and EJS. Users can create and manage listings, leave reviews, and explore properties on an interactive map. Admins have extended management controls.
+**Shelter** is a full-stack web application for managing property and room listings.  
+Users can browse listings, view details, upload images, and authenticated users can create and manage their own listings.
 
-👤 Users
+🌐 **Live Demo:**  
+https://shelter-rezc.onrender.com/listings
 
-Sign up / Login / Logout (Passport authentication)
+---
 
-Create, edit, and delete their own listings
+## 🚀 Features
 
-Upload listing images (Cloudinary)
+- 🏠 View all property/room listings
+- 🔍 Detailed listing pages with images and location
+- 👤 User authentication (Passport.js)
+- ➕ Create, edit, and delete listings (authorized users)
+- ☁️ Image upload using **Cloudinary**
+- 🗄️ MongoDB database with **Mongoose**
+- 🎨 Server-side rendering with **EJS**
+- 🔐 Sessions & flash messages
+- 🌍 Map integration using **Mapbox**
 
-Add reviews with ratings (1–5)
+---
 
-🏠 Listings
+## 🛠️ Tech Stack
 
-Full CRUD functionality
+**Frontend**
+- EJS
+- Bootstrap
+- HTML / CSS
 
-Image upload & storage
+**Backend**
+- Node.js
+- Express.js (v5)
+- MongoDB
+- Mongoose
+- Passport.js (Authentication)
 
-Location-based listings with Mapbox
+**Other Tools**
+- Cloudinary (image storage)
+- Multer (file uploads)
+- Mapbox SDK
+- Render (deployment)
 
-Server-side filtering:
+---
 
-Price range (after discount)
-
-Minimum rating
-
-Minimum discount
-
-Category
-
-⭐ Reviews
-
-Add and delete reviews
-
-Average rating used in filtering
-
-🗺 Maps
-
-Mapbox integration on listing detail pages
-
-Geocoded coordinates for seeded data
-
-🔐 Admin Panel
-
-Admins can:
-
-View and manage all listings
-
-Edit or delete any listing
-
-View and manage all users
-
-Shelter/
-│
-├── app.js                  # Main Express configuration
-├── index.js                # Optional entry entry point
-├── models/                 # Mongoose models
-│   ├── listen.js
-│   ├── review.js
-│   └── user.js
-│
-├── routes/                 # Route definitions
-│   ├── listings.js
-│   ├── users.js
-│   └── review.js
-│
-├── controllers/            # Business logic
-├── views/                  # EJS templates
-├── public/                 # Static assets (CSS, JS, map.js)
-│
-├── init/
-│   ├── data.js             # Seed data
-│   └── index.js            # Seeder script with geocoding
-│
-├── scripts/
-│   └── create-admin.js     # CLI admin creator
-└── .env                    # Environment variables
-💻 Installation & Setup
-1️⃣ Install dependencies
+## install dependencies 
 npm install
+## create .env file 
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_KEY=your_api_key
+CLOUDINARY_SECRET=your_api_secret
+MAPBOX_TOKEN=your_mapbox_token
+DB_URL=your_mongodb_connection_string
+SESSION_SECRET=your_secret
+**##start the server**
+npm start
 
-2️⃣ Start MongoDB
+npm start           # Start the server
+npm run create-admin # Create admin user
 
-Make sure MongoDB is running locally or update MONGO_URL.
+🙌 **Contributors**
 
-3️⃣ Seed sample data (optional)
+Abhishek – Backend & Full-Stack Development
+⭐**Support**
 
-⚠ This deletes existing listings.
-
-node init/index.js
-
-4️⃣ Create an admin user
-node scripts/create-admin.js username email password
-
-5️⃣ Start the server
-node app.js
+If you like this project, please ⭐ the repository!
+Feel free to fork, improve, and submit pull requests.
+**deployed**
+https://shelter-rezc.onrender.com/listings
 
 
-Or with nodemon:
-
-nodemon app.js
-
-
-Visit 👉 http://localhost:3000/listings
-
-credentials
-🔮 Future Improvements
-
-Pagination for listings
-
-Full-text search
-
-Store computed fields (avgRating, effectivePrice)
-
-API version for mobile clients
-
-Unit & integration tests
-
-🤝 Contributing
-
-Pull requests are welcome!
-For major changes, please open an issue first to discuss what you would like to change.
-<<<<<<< HEAD
-=======
-
-📜 License
-
-This project is licensed under the MIT License.
->>>>>>> 1d0078b4ac36fabb78fdd628d81aee3c5c96e304
