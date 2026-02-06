@@ -1,6 +1,6 @@
 {
   "engines":{
-    "node":"21.7.3"
+    "node":"24.4.1"
   },
 
   "dependencies": {
