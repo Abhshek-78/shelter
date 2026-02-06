@@ -1,0 +1,125 @@
+<%- include('./includes/navbar.ejs') %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <!-- Page Header -->
+      <div class="text-center mb-5">
+        <h1 class="fw-bold">Contact Us</h1>
+        <p class="text-muted fs-5">
+          Have a question or need help? Fill out the form and we’ll get back to you shortly.
+        </p>
+      </div>
+
+      <!-- Alerts -->
+      <% if (success && success.length) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% } %>
+
+      <% if (error && error.length) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% } %>
+
+      <!-- Contact Form Card -->
+      <div class="card shadow-sm mb-5">
+        <div class="card-body p-4">
+          <form action="/contact" method="POST" class="needs-validation" novalidate>
+
+            <div class="mb-3">
+              <label class="form-label">Full Name</label>
+              <input type="text" name="name" class="form-control" required>
+              <div class="invalid-feedback">Please enter your full name.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email Address</label>
+              <input type="email" name="email" class="form-control" required>
+              <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Phone (Optional)</label>
+              <input type="tel" name="phone" class="form-control">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Subject</label>
+              <select name="subject" class="form-select" required>
+                <option value="">Choose one</option>
+                <option value="general">General Inquiry</option>
+                <option value="issue">Report an Issue</option>
+                <option value="listing">Property Related</option>
+                <option value="account">Account Support</option>
+                <option value="feedback">Feedback</option>
+              </select>
+              <div class="invalid-feedback">Please select a subject.</div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Message</label>
+              <textarea name="message" rows="5" class="form-control" required
+                placeholder="Describe your issue or question..."></textarea>
+              <div class="invalid-feedback">Message is required.</div>
+            </div>
+
+            <button class="btn btn-primary btn-lg w-100">
+              Send Message
+            </button>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="row text-center border-top pt-4">
+        <div class="col-md-3 mb-3">
+          <h6>📧 Email</h6>
+          <a href="mailto:support@shelter.com">support@shelter.com</a>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h6>📞 Phone</h6>
+          <a href="tel:+1234567890">+1 (234) 567-890</a>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h6>🏢 Address</h6>
+          <p class="mb-0">123 Main Street<br>City, State</p>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h6>🕐 Hours</h6>
+          <p class="mb-0">Mon–Fri<br>9 AM – 6 PM</p>
+        </div>
+      </div>
+
+      <!-- Tip -->
+      <div class="alert alert-info mt-4 text-center">
+        💬 <strong>Pro Tip:</strong> Chat with <strong>Nia</strong> (floating chatbot) for instant help!
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict'
+  const forms = document.querySelectorAll('.needs-validation')
+  forms.forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    })
+  })
+})()
+</script>
+
+<%- include('./includes/footer.ejs') %>

@@ -10,6 +10,7 @@ const methodoveride = require('method-override');
 const ejsmate=require('ejs-mate');
 const Listing = require("./models/listen.js");
 const session=require('express-session');
+const { MongoStore } = require('connect-mongo');
 const flash=require('connect-flash');
 const passport=require('passport');
 const Localstrategy=require('passport-local');
@@ -17,13 +18,14 @@ const User=require('./models/user.js');
 
 
 const ExpressError=require("./utils/Expresserror.js");
-const Mongo_url = 'mongodb://127.0.0.1:27017/rooms';
+
+const Mongo_Url=process.env.ATLAS_URI;
 
 const listingsRoutes=require("./routes/listings.js");
 const reviewRoutes=require("./routes/review.js");
 const userRoutes=require("./routes/users.js");
 async function main(){
-    await mongoose.connect(Mongo_url);
+    await mongoose.connect(Mongo_Url);
 }
 main().then(()=>{
     console.log('Mongoose is connected');
@@ -31,8 +33,16 @@ main().then(()=>{
     console.log('Mongoose is not connected',err);
 });
  //middleware
+const store = new MongoStore({
+    mongoUrl: Mongo_Url,
+    touchAfter: 24 * 60 * 60,
+});
+store.on('error', (err) => {
+    console.log('session store error', err);
+});
 const sessionOption={
-    secret:"this_is_super_secret",
+    store,
+    secret:process.env.SECREAT,
     resave:false,
     saveUninitialized:true,
     cookie:{
@@ -42,6 +52,9 @@ const sessionOption={
     }
     
 }
+
+
+
 
 app.use(session(sessionOption));
 app.use(flash());
