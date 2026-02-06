@@ -103,6 +103,10 @@ app.use(express.static(path.join(__dirname,'public')));
 /*app.get('/', (req, res) => {
     res.send('Hello I am ready to work');
 });*/
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
 
 
 app.use('/listings',listingsRoutes);
