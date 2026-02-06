@@ -103,6 +103,7 @@ app.use(express.static(path.join(__dirname,'public')));
 /*app.get('/', (req, res) => {
     res.send('Hello I am ready to work');
 });*/
+//this rediret in listibg page
 app.get("/", (req, res) => {
   res.redirect("/listings");
 });
