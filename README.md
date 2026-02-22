@@ -1,4 +1,4 @@
-# 🏡 Shelter — Property Listings Web App
+# 🏡 Shelter — Property Listings Web App.
 
 **Shelter** is a full-stack web application for managing property and room listings.  
 Users can browse listings, view details, upload images, and authenticated users can create and manage their own listings.
